@@ -5,16 +5,16 @@ import Link from "next/link";
 
 const Footer = async () => {
   const client = createClient();
-  const settings = await client.getSingle("seetings");
+  const seetings = await client.getSingle("seetings");
   return (
     <footer className="flex flex-col items-center justify-between gap-6 border-t border-slate-600 px-12 py-7 md:flex-row">
       <Link href="/">
         <WordMark />
         <span className="sr-only">Nexus.ai Home Page</span>
       </Link>
-      <nav aria-label="Fooer">
+      <nav aria-label="Footer">
         <ul className="flex gap-6">
-          {settings.data.navigation.map((item) => (
+          {seetings.data.navigation.map((item) => (
             <li key={item.label}>
               <PrismicNextLink
                 field={item.link}
