@@ -22,7 +22,7 @@ const Case = async ({ slice }: CaseProps): Promise<JSX.Element> => {
   const caseStudies = await Promise.all(
     slice.items.map(async (item) => {
       if (isFilled.contentRelationship(item.case)) {
-        return await client.getByID<Content.CaseDocument>(item.case.id);
+        return await client.getByID<any>(item.case.id);
       }
     }),
   );
