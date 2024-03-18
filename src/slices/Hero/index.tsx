@@ -28,7 +28,7 @@ const Hero = ({ slice }: HeroProps): JSX.Element => {
           </h1>
         )}
         {isFilled.richText(slice.primary.body) && (
-          <div className=" mx-auto mt-6 max-w-md text-balance ">
+          <div className=" mx-auto mt-6 max-w-md text-balance text-lg">
             <PrismicText field={slice.primary.body} />
           </div>
         )}
