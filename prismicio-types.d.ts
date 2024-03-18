@@ -80,6 +80,104 @@ interface PageDocumentData {
 export type PageDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
 
+type PageStudyDocumentDataSlicesSlice = RichTextSlice;
+
+/**
+ * Content for Page Study documents
+ */
+interface PageStudyDocumentData {
+  /**
+   * Company field in *Page Study*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_study.company
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  company: prismic.TitleField;
+
+  /**
+   * Description field in *Page Study*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_study.description
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+
+  /**
+   * Logo Image field in *Page Study*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_study.logo_image
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  logo_image: prismic.ImageField<never>;
+
+  /**
+   * Slice Zone field in *Page Study*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_study.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  slices: prismic.SliceZone<PageStudyDocumentDataSlicesSlice> /**
+   * Meta Description field in *Page Study*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A brief summary of the page
+   * - **API ID Path**: page_study.meta_description
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */;
+  meta_description: prismic.KeyTextField;
+
+  /**
+   * Meta Image field in *Page Study*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_study.meta_image
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  meta_image: prismic.ImageField<never>;
+
+  /**
+   * Meta Title field in *Page Study*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **API ID Path**: page_study.meta_title
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  meta_title: prismic.KeyTextField;
+}
+
+/**
+ * Page Study document from Prismic
+ *
+ * - **API ID**: `page_study`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type PageStudyDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<
+    Simplify<PageStudyDocumentData>,
+    "page_study",
+    Lang
+  >;
+
 /**
  * Item in *seetings → Navigation*
  */
@@ -181,7 +279,10 @@ export type SeetingsDocument<Lang extends string = string> =
     Lang
   >;
 
-export type AllDocumentTypes = PageDocument | SeetingsDocument;
+export type AllDocumentTypes =
+  | PageDocument
+  | PageStudyDocument
+  | SeetingsDocument;
 
 /**
  * Primary content in *Bento → Primary*
@@ -280,6 +381,73 @@ type BentoSliceVariation = BentoSliceDefault;
  * - **Documentation**: https://prismic.io/docs/slice
  */
 export type BentoSlice = prismic.SharedSlice<"bento", BentoSliceVariation>;
+
+/**
+ * Primary content in *Case → Primary*
+ */
+export interface CaseSliceDefaultPrimary {
+  /**
+   * Heading field in *Case → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: case.primary.heading
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  heading: prismic.TitleField;
+
+  /**
+   * Body field in *Case → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: case.primary.body
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  body: prismic.RichTextField;
+}
+
+/**
+ * Primary content in *Case → Items*
+ */
+export interface CaseSliceDefaultItem {
+  /**
+   * Case field in *Case → Items*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: case.items[].case
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  case: prismic.ContentRelationshipField;
+}
+
+/**
+ * Default variation for Case Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type CaseSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<CaseSliceDefaultPrimary>,
+  Simplify<CaseSliceDefaultItem>
+>;
+
+/**
+ * Slice variation for *Case*
+ */
+type CaseSliceVariation = CaseSliceDefault;
+
+/**
+ * Case Shared Slice
+ *
+ * - **API ID**: `case`
+ * - **Description**: Case
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type CaseSlice = prismic.SharedSlice<"case", CaseSliceVariation>;
 
 /**
  * Primary content in *Hero → Primary*
@@ -614,6 +782,9 @@ declare module "@prismicio/client" {
       PageDocument,
       PageDocumentData,
       PageDocumentDataSlicesSlice,
+      PageStudyDocument,
+      PageStudyDocumentData,
+      PageStudyDocumentDataSlicesSlice,
       SeetingsDocument,
       SeetingsDocumentData,
       SeetingsDocumentDataNavigationItem,
@@ -623,6 +794,11 @@ declare module "@prismicio/client" {
       BentoSliceDefaultItem,
       BentoSliceVariation,
       BentoSliceDefault,
+      CaseSlice,
+      CaseSliceDefaultPrimary,
+      CaseSliceDefaultItem,
+      CaseSliceVariation,
+      CaseSliceDefault,
       HeroSlice,
       HeroSliceDefaultPrimary,
       HeroSliceVariation,
