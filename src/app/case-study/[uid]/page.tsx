@@ -14,7 +14,7 @@ type Params = { uid: string };
 export default async function Page({ params }: { params: Params }) {
   const client = createClient();
   const page = await client
-    .getByUID("case_study", params.uid)
+    .getByUID("case", params.uid)
     .catch(() => notFound());
 
   return (
