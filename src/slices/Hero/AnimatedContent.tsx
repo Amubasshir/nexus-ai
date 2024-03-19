@@ -2,6 +2,7 @@
 
 import ButtonLink from "@/components/ButtonLink";
 import StarGrid from "@/components/StarGrid";
+import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
 import { useGSAP } from "@gsap/react";
 import { Content, isFilled } from "@prismicio/client";
 import { PrismicNextImage } from "@prismicio/next";
@@ -11,9 +12,18 @@ import { useRef } from "react";
 
 const AnimatedContent = ({ slice }: { slice: Content.HeroSlice }) => {
   const container = useRef(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
   gsap.registerPlugin(useGSAP);
   useGSAP(
     () => {
+      if (prefersReducedMotion) {
+        gsap.set(
+          ".hero__heading, .hero__body, .hero__button, .hero__image, .hero__glow",
+          { opacity: 1 },
+        );
+        return;
+      }
+
       const tl = gsap.timeline({ defaults: { ease: "power2.inOut" } });
       tl.fromTo(
         ".hero__heading",
