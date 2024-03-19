@@ -56,10 +56,10 @@ const Integrations = ({ slice }: IntegrationsProps): JSX.Element => {
           <PrismicText field={slice.primary.heading} />
         </h2>
 
-        <div className="mx-auto mt-6 max-w-md text-balance text-center text-xl text-slate-300">
+        <div className="mx-auto mt-6 max-w-md text-center text-xl text-slate-300">
           <PrismicRichText field={slice.primary.body} />
         </div>
-        <div className="flex-cl mt-20 flex items-center md:flex-row">
+        <div className="mt-20 flex flex-col items-center md:flex-row">
           {slice.items.map((item, index) => (
             <React.Fragment key={index}>
               {index === Math.floor(slice.items.length / 2) && (
