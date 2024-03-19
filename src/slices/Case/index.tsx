@@ -36,10 +36,6 @@ const Case = async ({ slice }: CaseProps): Promise<JSX.Element> => {
         <PrismicText field={slice.primary.heading} />
       </h2>
 
-      {/* <div className="mx-auto mt-6 max-w-md text-balance text-center text-xl text-slate-300">
-        <PrismicRichText field={slice.primary.body} />
-      </div> */}
-
       <div className="mt-20 grid gap-16">
         {caseStudies.map(
           (caseStudy, index) =>
